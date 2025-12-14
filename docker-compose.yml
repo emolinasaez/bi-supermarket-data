@@ -1,0 +1,68 @@
+# ============================================
+# DOCKER COMPOSE - Retail Analytics Project
+# ============================================
+
+version: '3.8'
+
+services:
+  # Servicio principal de analítica
+  analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: retail-analytics
+    image: retail-analytics:latest
+
+    # Variables de entorno
+    environment:
+      - DATASET_URL=${DATASET_URL:-https://archive.ics.uci.edu/ml/machine-learning-databases/00352/Online%20Retail.xlsx}
+      - DUCKDB_PATH=/app/dwh/retail_analytics.duckdb
+      - DBT_PROFILES_DIR=/app/dwh
+      - DBT_TARGET=dev
+      - LOG_LEVEL=INFO
+
+    # Volúmenes para persistencia
+    volumes:
+      # Código fuente (para desarrollo)
+      - ./ingestion_polars.py:/app/ingestion_polars.py:ro
+      - ./dwh:/app/dwh
+      - ./docs:/app/docs
+      - ./bi:/app/bi
+
+      # Persistencia de datos y logs
+      - duckdb_data:/app/dwh
+      - logs_data:/app/logs
+
+    # Mantener contenedor activo
+    stdin_open: true
+    tty: true
+
+    # Comando por defecto
+    command: bash
+
+    # Healthcheck
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import duckdb; import polars; import dbt" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+    # Networking
+    networks:
+      - analytics-network
+
+# Volúmenes persistentes
+volumes:
+  duckdb_data:
+    driver: local
+    name: retail-analytics-duckdb
+  logs_data:
+    driver: local
+    name: retail-analytics-logs
+
+# Red personalizada
+networks:
+  analytics-network:
+    driver: bridge
+    name: retail-analytics-net

@@ -1,0 +1,78 @@
+# ============================================
+# DOCKERIGNORE
+# ============================================
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# DuckDB (se genera en runtime)
+*.duckdb
+*.duckdb.wal
+
+# dbt
+dwh/target/
+dwh/dbt_packages/
+dwh/logs/
+dwh/dbt_modules/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+data/
+*.csv
+*.xlsx
+*.parquet
+
+# Documentation artifacts
+docs/*.pdf
+docs/*.docx
+
+# Environment
+.env.local
+.env.*.local
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Misc
+*.bak
+*.tmp
+*.temp
+README.md
+LICENSE

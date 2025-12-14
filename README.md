@@ -84,7 +84,43 @@ bi-supermarket-data/
 
 ## 🚀 Guía de Inicio Rápido
 
-### 1. Configuración del Entorno
+### Opción A: Con Docker 🐳 (Recomendado)
+
+**Requisitos:** Docker Desktop instalado
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/emolinasaez/bi-supermarket-data.git
+cd bi-supermarket-data
+
+# Ejecutar pipeline completo con un solo comando
+make quick-start
+
+# O paso por paso:
+make build          # Construir imagen Docker
+make ingestion      # Ingesta de datos (Bronze)
+make dbt-deps       # Instalar dependencias dbt
+make dbt-run        # Transformaciones (Silver + Gold)
+make dbt-test       # Tests de calidad
+make dbt-docs       # Documentación (http://localhost:8080)
+```
+
+**Comandos útiles:**
+```bash
+make help           # Ver todos los comandos disponibles
+make shell          # Abrir shell interactivo
+make logs           # Ver logs del contenedor
+make clean          # Limpiar volúmenes y contenedores
+```
+
+---
+
+### Opción B: Instalación Local (Sin Docker)
+
+**Requisitos:** Python 3.11+
+
+
+### 1. Configuración del Entorno (Local)
 
 ```bash
 # Clonar el repositorio
@@ -99,7 +135,7 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Configurar Variables de Entorno
+### 2. Configurar Variables de Entorno (Local)
 
 Editar el archivo `.env` con tus credenciales:
 
@@ -108,13 +144,13 @@ DATASET_URL=https://archive.ics.uci.edu/ml/machine-learning-databases/00352/Onli
 DUCKDB_PATH=dwh/retail_analytics.duckdb
 ```
 
-### 3. Ejecutar Ingesta de Datos (Bronze)
+### 3. Ejecutar Ingesta de Datos (Bronze) - Local
 
 ```bash
 python ingestion_polars.py
 ```
 
-### 4. Ejecutar Transformaciones dbt (Silver + Gold)
+### 4. Ejecutar Transformaciones dbt (Silver + Gold) - Local
 
 ```bash
 cd dwh
@@ -123,7 +159,7 @@ dbt run
 dbt test
 ```
 
-### 5. Generar Documentación
+### 5. Generar Documentación - Local
 
 ```bash
 dbt docs generate
