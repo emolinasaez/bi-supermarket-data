@@ -1,0 +1,59 @@
+# ============================================
+# CONFIGURACIÓN PRINCIPAL DE DBT
+# ============================================
+
+name: 'retail_analytics'
+version: '1.0.0'
+config-version: 2
+
+# Directorio de modelos
+model-paths: ["dwh/models"]
+analysis-paths: ["dwh/analyses"]
+test-paths: ["dwh/tests"]
+seed-paths: ["dwh/seeds"]
+macro-paths: ["dwh/macros"]
+snapshot-paths: ["dwh/snapshots"]
+
+# Directorio de salida
+target-path: "dwh/target"
+clean-targets:
+  - "dwh/target"
+  - "dwh/dbt_packages"
+
+# Configuración de modelos
+models:
+  retail_analytics:
+    # Capa Bronze - Tablas transitorias
+    bronze:
+      +materialized: view
+      +schema: bronze
+      +tags: ['bronze', 'raw']
+    
+    # Capa Silver - Tablas limpias y transformadas
+    silver:
+      +materialized: table
+      +schema: silver
+      +tags: ['silver', 'cleaned']
+    
+    # Capa Gold - Modelos analíticos y agregados
+    gold:
+      +materialized: table
+      +schema: gold
+      +tags: ['gold', 'analytics']
+
+# Variables del proyecto
+vars:
+  # Fecha de corte para cálculos de Recency
+  analysis_date: '2011-12-09'
+  
+  # Umbrales para segmentación RFM
+  rfm_quantiles: 5
+  
+  # Filtros de calidad de datos
+  min_quantity: 0
+  min_unit_price: 0
+
+# Configuración de tests
+tests:
+  +store_failures: true
+  +schema: test_results

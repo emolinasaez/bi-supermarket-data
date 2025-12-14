@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: bronze_raw_data
+    description: "Vista de datos crudos del dataset Online Retail sin transformaciones"
+    columns:
+      - name: InvoiceNo
+        description: "Número de factura (6 dígitos). Si inicia con 'C', es una cancelación"
+      - name: CustomerID
+        description: "ID único del cliente"
+        tests:
+          - not_null
+
+  - name: silver_cleaned_transactions
+    description: "Transacciones limpias y validadas"
+    columns:
+      - name: transaction_id
+        description: "Clave subrogada única"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: total_sale
+        description: "Quantity × UnitPrice"
+        tests:
+          - not_null
+
+  - name: gold_customer_rfm
+    description: "Métricas RFM calculadas por cliente"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: recency_days
+        tests:
+          - not_null
+      - name: frequency
+        tests:
+          - not_null
+      - name: monetary_value
+        tests:
+          - not_null
+
+  - name: gold_rfm_segments
+    description: "Segmentación de clientes con scores RFM"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_segment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Champions', 'Loyal Customers', 'Potential Loyalists', 'New Customers', 'Promising', 'Need Attention', 'About to Sleep', 'At Risk', 'Cannot Lose Them', 'Hibernating', 'Lost', 'Other']

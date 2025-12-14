@@ -1,0 +1,31 @@
+# ============================================
+# DEPENDENCIAS DEL PROYECTO
+# ============================================
+
+# Data Processing
+polars>=0.20.0
+duckdb>=0.10.0
+pyarrow>=14.0.0
+
+# dbt Core y Adapter
+dbt-core>=1.7.0
+dbt-duckdb>=1.7.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Data Validation
+great-expectations>=0.18.0
+
+# Utilities
+requests>=2.31.0
+openpyxl>=3.1.0  # Para leer archivos Excel
+pandas>=2.1.0    # Fallback si es necesario
+
+# Logging
+loguru>=0.7.0
+
+# Development
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
