@@ -27,24 +27,43 @@ class BronzeIngestion:
     def __init__(self):
         """Inicializar configuración desde variables de entorno."""
         load_dotenv()
-        self.dataset_url = os.getenv("DATASET_URL")
+        self.dataset_url = os.getenv("DATASET_URL")  # Fallback si no se usa Kaggle
+        self.kaggle_dataset = os.getenv("KAGGLE_DATASET", "thedevastator/online-retail-sales-and-customer-data")
+        self.kaggle_file = os.getenv("KAGGLE_FILE", "Online Retail.csv")
         self.duckdb_path = os.getenv("DUCKDB_PATH", "dwh/retail_analytics.duckdb")
         
         logger.info("Configuración cargada exitosamente")
-        logger.info(f"Dataset URL: {self.dataset_url}")
+        logger.info(f"Kaggle Dataset: {self.kaggle_dataset}")
+        logger.info(f"Kaggle File: {self.kaggle_file}")
         logger.info(f"DuckDB Path: {self.duckdb_path}")
     
     def download_and_load_data(self):
         """
-        Descarga datos desde URL y los carga directamente en DuckDB.
-        No se almacena archivo local.
+        Descarga datos desde Kaggle usando KaggleHub y los carga en Polars.
+        Utiliza la API de Kaggle para acceso directo al dataset.
         """
         try:
-            logger.info("Iniciando descarga de datos desde URL...")
+            logger.info("Iniciando descarga de datos desde Kaggle...")
+            logger.info("Dataset: thedevastator/online-retail-sales-and-customer-data")
             
-            # Leer datos directamente desde URL usando Polars
-            # Nota: Para Excel, Polars usa openpyxl internamente
-            df = pl.read_excel(self.dataset_url)
+            # Importar kagglehub
+            import kagglehub
+            from kagglehub import KaggleDatasetAdapter
+            
+            # Cargar dataset directamente como LazyFrame de Polars
+            # El archivo principal del dataset es "Online Retail.csv"
+            logger.info("Cargando dataset con KaggleHub...")
+            
+            lf = kagglehub.load_dataset(
+                KaggleDatasetAdapter.POLARS,
+                "thedevastator/online-retail-sales-and-customer-data",
+                "Online Retail.csv",  # Archivo específico del dataset
+                polars_frame_type="lazy"  # Usar LazyFrame para eficiencia
+            )
+            
+            # Materializar el LazyFrame
+            logger.info("Materializando datos...")
+            df = lf.collect()
             
             logger.info(f"Datos descargados exitosamente: {df.shape[0]} filas, {df.shape[1]} columnas")
             logger.info(f"Columnas: {df.columns}")
@@ -52,10 +71,25 @@ class BronzeIngestion:
             # Mostrar primeras filas para validación
             logger.debug(f"Primeras 5 filas:\n{df.head()}")
             
+            # Validar que tenemos las columnas esperadas
+            expected_columns = ["InvoiceNo", "StockCode", "Description", "Quantity", 
+                              "InvoiceDate", "UnitPrice", "CustomerID", "Country"]
+            
+            missing_cols = set(expected_columns) - set(df.columns)
+            if missing_cols:
+                logger.warning(f"Columnas faltantes: {missing_cols}")
+            
             return df
             
+        except ImportError as e:
+            logger.error("kagglehub no está instalado. Ejecuta: pip install kagglehub[polars-datasets]")
+            raise
         except Exception as e:
-            logger.error(f"Error al descargar datos: {str(e)}")
+            logger.error(f"Error al descargar datos desde Kaggle: {str(e)}")
+            logger.info("Asegúrate de tener configuradas tus credenciales de Kaggle:")
+            logger.info("  1. Crea una API key en https://www.kaggle.com/settings")
+            logger.info("  2. Descarga el archivo kaggle.json")
+            logger.info("  3. Colócalo en ~/.kaggle/kaggle.json (Linux/Mac) o %USERPROFILE%\\.kaggle\\kaggle.json (Windows)")
             raise
     
     def load_to_duckdb(self, df: pl.DataFrame):

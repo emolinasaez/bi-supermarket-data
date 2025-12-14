@@ -7,6 +7,9 @@ polars>=0.20.0
 duckdb>=0.10.0
 pyarrow>=14.0.0
 
+# Kaggle Integration
+kagglehub[polars-datasets]>=0.3.0
+
 # dbt Core y Adapter
 dbt-core>=1.7.0
 dbt-duckdb>=1.7.0

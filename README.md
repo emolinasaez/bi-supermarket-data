@@ -33,8 +33,8 @@ Proyecto de portafolio de analítica de datos que implementa un pipeline complet
 
 #### 🥉 Capa Bronze
 - **Propósito:** Ingesta cruda de datos desde fuentes externas
-- **Tecnología:** Polars + DuckDB
-- **Proceso:** Carga dinámica desde API/URL sin almacenamiento local
+- **Tecnología:** Polars + DuckDB + Kaggle Hub
+- **Proceso:** Carga dinámica desde Kaggle API sin almacenamiento local
 
 #### 🥈 Capa Silver
 - **Propósito:** Limpieza, validación y transformación de datos
@@ -83,6 +83,18 @@ bi-supermarket-data/
 ```
 
 ## 🚀 Guía de Inicio Rápido
+
+### ⚙️ Configuración Inicial de Kaggle
+
+Este proyecto usa **Kaggle Hub** para descargar datos. Configura tus credenciales primero:
+
+1. Crea una API key en [kaggle.com/settings](https://www.kaggle.com/settings)
+2. Descarga el archivo `kaggle.json`
+3. Colócalo en `~/.kaggle/kaggle.json` (Linux/Mac) o `%USERPROFILE%\.kaggle\kaggle.json` (Windows)
+
+Ver guía completa: [docs/kaggle_setup.md](docs/kaggle_setup.md)
+
+---
 
 ### Opción A: Con Docker 🐳 (Recomendado)
 
@@ -203,6 +215,7 @@ dbt test --select tag:data_quality
 
 - [Arquitectura Medallion](docs/arquitectura.md)
 - [Diccionario de Datos](docs/diccionario_datos.md)
+- [Configuración de Kaggle](docs/kaggle_setup.md)
 
 ## 👤 Autor
 
