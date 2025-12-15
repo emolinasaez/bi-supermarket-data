@@ -1,8 +1,8 @@
-# 🏪 Retail Analytics - Data-Driven Transformation
+# 🏪 Retail Analytics - Interactive Executive Report
 
-> **Descubriendo £429K en pérdidas ocultas mediante Arquitectura Medallion y Análisis Six Sigma**
+> **Strategic Data Brief: Uncovering £257K in Hidden Costs Through Advanced Analytics**
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live-success?style=for-the-badge)](https://emolinasaez.github.io/bi-supermarket-data/)
+[![Live Report](https://img.shields.io/badge/Report-Live-success?style=for-the-badge)](https://emolinasaez.github.io/bi-supermarket-data/)
 [![dbt](https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white)](https://www.getdbt.com/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?style=for-the-badge&logo=duckdb&logoColor=black)](https://duckdb.org/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
@@ -11,43 +11,47 @@
 
 ## 🎯 Executive Summary
 
-Este proyecto demuestra cómo **transformar datos crudos en insights accionables** que generan valor de negocio real. A través de una arquitectura moderna de datos y metodologías analíticas avanzadas, descubrí:
+This project demonstrates how to **transform raw data into strategic insights** through modern data architecture and advanced analytical methodologies. Designed as a **Quarterly Business Review (Q3 2011)**, this interactive report reveals:
 
-- **£429,410** en pérdidas no reportadas (costos ocultos en inventario)
-- **£824,410+** en oportunidades anuales de mejora
-- **1 evento "Cisne Negro"** detectado mediante control estadístico Six Sigma
-- **71% de ingresos** concentrados en el 20% superior de clientes (Pareto confirmado)
+- **£257,646** in unreported inventory losses (COGS-based, not inflated retail price)
+- **£494,646+** in total annual improvement opportunities
+- **1 Black Swan event** detected via Six Sigma statistical process control
+- **71% of revenue** concentrated in top 20% of customers (Pareto principle confirmed)
 
-**[📊 Ver Presentación Ejecutiva Interactiva →](https://emolinasaez.github.io/bi-supermarket-data/)**
+**[📊 View Interactive Executive Report →](https://emolinasaez.github.io/bi-supermarket-data/)**
+
+> **Note on Format:** This is an **immutable strategic report** (frozen snapshot), not an operational dashboard. The static architecture ensures narrative integrity and portability for board presentations without dependency on live database connections or BI server licenses.
 
 ---
 
 ## 💼 Business Impact
 
-### El Problema
-Una empresa retail con **541,909 transacciones** (Dic 2010 - Sep 2011) reportaba ganancias saludables, pero los datos contaban otra historia:
+### The Problem
+A retail company with **541,909 transactions** (Dec 2010 - Sep 2011) reported healthy profits, but the data told a different story:
 
-- ❌ **1,336 ajustes de inventario** registrados a costo £0.00
-- ❌ **15.97% de productos** con datos inconsistentes
-- ❌ **Profit inflado** por no contabilizar pérdidas reales
+- ❌ **1,336 inventory adjustments** recorded at £0.00 cost
+- ❌ **15.97% of products** with inconsistent data
+- ❌ **Profit inflated** by not accounting for real losses at cost
 
-### La Solución
-Implementé una **Arquitectura Medallion** (Bronze → Silver → Gold) con **4 Pilares Analíticos**:
+### The Solution
+Implemented a **Medallion Architecture** (Bronze → Silver → Gold) with **4 Analytical Pillars**:
 
-1. **💰 Financial Performance** - Profit ajustado con costos reales
-2. **👥 Customer Analytics** - Segmentación RFM y CLV
-3. **⚙️ Operational Excellence** - Control Six Sigma de mermas
-4. **📦 Product Intelligence** - Clasificación Stars vs Zombies
+1. **💰 Financial Performance** - Adjusted profit with real COGS-based losses
+2. **👥 Customer Analytics** - RFM segmentation and CLV modeling
+3. **⚙️ Operational Excellence** - Six Sigma loss control
+4. **📦 Product Intelligence** - Stars vs Zombies classification
 
-### Los Resultados
+### The Results
 
-| Métrica | Valor | Impacto |
+| Metric | Value | Impact |
 |---------|-------|---------|
-| **Pérdidas Ocultas Identificadas** | £429,410 | Ajuste de estados financieros |
-| **Clientes en Riesgo** | 1,392 (32%) | Oportunidad de retención £245K |
-| **Productos Zombie** | 53 | Candidatos para descontinuar |
-| **Black Swan Events** | 1 (7.26σ) | Investigación de causa raíz |
-| **Oportunidad Total Anual** | **£824,410+** | ROI 10:1 estimado |
+| **Hidden Losses Identified (COGS)** | £257,646 | Financial statement adjustment |
+| **At-Risk Customers** | 1,392 (32%) | Retention opportunity £245K |
+| **Zombie Products** | 53 | Candidates for discontinuation |
+| **Black Swan Events** | 1 (7.26σ) | Root cause investigation required |
+| **Total Annual Opportunity** | **£494,646+** | Estimated 8:1 ROI |
+
+> **Financial Methodology Note:** Losses calculated at estimated COGS (60% of retail price), not retail price. This distinction is critical: **Cash Out (COGS)** vs **Opportunity Cost (Retail Price)**. Using a typical 40% retail margin ensures we don't inflate losses by including expected profit margin.
 
 ---
 
@@ -57,35 +61,39 @@ Implementé una **Arquitectura Medallion** (Bronze → Silver → Gold) con **4 
 
 ```
 Data Ingestion    → Polars + Kaggle API
-Data Storage      → DuckDB (OLAP optimizado)
-Transformation    → dbt (SQL-first, versionado)
+Data Storage      → DuckDB (OLAP optimized)
+Transformation    → dbt (SQL-first, versioned)
 Analysis          → Python + Jupyter
-Visualization     → Chart.js (presentación web)
+Presentation      → Chart.js (static web report)
 Orchestration     → Medallion Architecture
 ```
 
-### Arquitectura Medallion
+### Medallion Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  BRONZE LAYER - Raw Data (Immutable)                        │
-│  • 541,909 transacciones sin transformar                    │
-│  • Ingesta desde Kaggle API con Polars                      │
+│  • 541,909 transactions untransformed                       │
+│  • Ingestion from Kaggle API with Polars                    │
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  SILVER LAYER - Curated Data (Clean & Structured)           │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │ Foundation (Dimensions)                              │   │
-│  │  • dim_products (4,070) - Descripciones normalizadas│   │
+│  │  • dim_products (4,070) - Normalized descriptions    │   │
 │  │  • dim_customers (4,342) - Customer master           │   │
-│  │  • dim_calendar (285) - Calendario de negocio        │   │
+│  │  • dim_calendar (285) - Business calendar            │   │
 │  └─────────────────────────────────────────────────────┘   │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │ Transactions (Facts)                                 │   │
-│  │  • fact_sales (~537K) - Ventas y devoluciones       │   │
-│  │  • fact_inventory_losses (1,336) - Mermas con costos│   │
-│  │  • fact_accounting_adjustments (2,866) - Ajustes    │   │
+│  │  • fact_sales (~537K) - Sales and returns           │   │
+│  │  • fact_inventory_losses (1,336) - Losses w/ COGS   │   │
+│  │  • fact_accounting_adjustments (2,866) - Adjustments│   │
+│  └─────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ Reference Data (Seeds)                               │   │
+│  │  • excluded_stock_codes - Non-product codes (11)    │   │
 │  └─────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
                             ↓
@@ -112,136 +120,142 @@ Orchestration     → Medallion Architecture
 ## 🔬 Key Analytical Techniques
 
 ### 1. Six Sigma Statistical Process Control
-**Objetivo:** Detectar anomalías en pérdidas semanales de inventario
+**Objective:** Detect anomalies in weekly inventory losses
 
-**Metodología:**
-- Cálculo de media (μ) y desviación estándar (σ)
-- Límites de control: UCL = μ + 3σ, LCL = μ - 3σ
-- Z-score para cada semana
-- Clasificación: Normal, 2σ Warning, 3σ Out of Control, 6σ Black Swan
+**Methodology:**
+- Calculate mean (μ) and standard deviation (σ)
+- Control limits: UCL = μ + 3σ, LCL = μ - 3σ
+- Z-score for each week
+- Classification: Normal, 2σ Warning, 3σ Out of Control, 6σ Black Swan
 
-**Resultado:**
+**Result:**
 ```
-Semana 2011-W24: 28,258 unidades perdidas (7.26σ)
-→ Evento Cisne Negro detectado
-→ Impacto financiero: £13,780
-→ Acción: Investigación de causa raíz
+Week 2011-W24: 28,258 units lost (7.26σ)
+→ Black Swan event detected
+→ Financial impact: £13,780 (COGS)
+→ Action: Root cause investigation
 ```
 
 ### 2. RFM Customer Segmentation
-**Objetivo:** Clasificar clientes por valor y comportamiento
+**Objective:** Classify customers by value and behavior
 
-**Metodología:**
-- **Recency:** Días desde última compra
-- **Frequency:** Número de transacciones
-- **Monetary:** Valor total gastado
-- Quintiles (1-5) para cada dimensión
-- Segmentos: Champions, Loyal, At Risk, etc.
+**Methodology:**
+- **Recency:** Days since last purchase
+- **Frequency:** Number of transactions
+- **Monetary:** Total value spent
+- Quintiles (1-5) for each dimension
+- Segments: Champions, Loyal, At Risk, etc.
 
-**Resultado:**
+**Result:**
 ```
-Champions (981 clientes):
-  • 22.6% de la base
-  • £5.72M en revenue (59.8% del total)
+Champions (981 customers):
+  • 22.6% of base
+  • £5.72M in revenue (59.8% of total)
   • Avg CLV: £32,244
   
-At Risk (1,392 clientes):
-  • 32.1% de la base
-  • £491K en revenue (5.1% del total)
-  • Oportunidad de retención: £245K/año
+At Risk (1,392 customers):
+  • 32.1% of base
+  • £491K in revenue (5.1% of total)
+  • Retention opportunity: £245K/year
 ```
 
-### 3. Product Portfolio Analysis
-**Objetivo:** Optimizar mix de productos
+### 3. COGS-Based Loss Calculation (Critical)
+**Objective:** Accurately quantify financial impact of inventory losses
 
-**Metodología:**
-- Clasificación ABC por revenue
-- Tasa de devolución como indicador de calidad
-- Matriz 2x2: Revenue vs Return Rate
+**Methodology:**
+- **Problem:** Inventory adjustments recorded at £0.00
+- **Solution:** Impute using average product price × cost factor
+- **Cost Factor:** 0.60 (assumes 40% retail margin)
+- **Formula:** Loss = Quantity × Avg Price × 0.60
 
-**Resultado:**
+**Why This Matters:**
 ```
-⭐ Stars (698): £6.85M revenue, 1.21% return rate
-📦 Regular (3,067): £2.86M revenue, 1.08% return rate
-⚠️ Problem (95): £571K revenue, 50.85% return rate
-🧟 Zombies (53): £2.4K revenue, 60.26% return rate
+❌ Wrong: Loss = Quantity × Retail Price (£429K)
+   → Inflates losses by including expected profit margin
+   → This is "Opportunity Cost", not actual cash out
+
+✅ Correct: Loss = Quantity × COGS (£257K)
+   → Reflects actual cash out / cost of acquisition
+   → This is "Financial Loss" for accounting purposes
 ```
 
 ---
 
 ## 📊 Data Quality Findings
 
-### Problema 1: Descripciones Inconsistentes
-- **Impacto:** 15.97% de productos (650 de 4,070)
-- **Ejemplo:** StockCode "84879" con 8 descripciones diferentes
-- **Solución:** Normalización por frecuencia en `dim_products`
+### Problem 1: Inconsistent Descriptions
+- **Impact:** 15.97% of products (650 of 4,070)
+- **Example:** StockCode "84879" with 8 different descriptions
+- **Solution:** Normalization by frequency in `dim_products`
 
-### Problema 2: Costos de Inventario a Cero
-- **Impacto:** 1,336 registros (0.25% de transacciones)
-- **Problema:** Mermas registradas a £0.00 → Profit inflado
-- **Solución:** Imputación de costos usando precio promedio del producto
-- **Resultado:** £429,410 en pérdidas NO reportadas descubiertas
+### Problem 2: Zero-Cost Inventory Adjustments
+- **Impact:** 1,336 records (0.25% of transactions)
+- **Problem:** Losses recorded at £0.00 → Profit inflated
+- **Solution:** COGS imputation using average price × 0.60
+- **Result:** £257,646 in unreported losses (COGS) discovered
 
-### Problema 3: Transacciones Mezcladas
-- **Impacto:** 2,866 registros (0.53% de transacciones)
-- **Problema:** Descuentos, envíos, ajustes mezclados con ventas
-- **Solución:** Separación en `fact_accounting_adjustments`
+### Problem 3: Hardcoded Exclusions (Technical Debt)
+- **Impact:** Maintenance risk, scalability issues
+- **Problem:** NOT IN clause with magic strings in SQL
+- **Solution:** Seed table `excluded_stock_codes.csv` (11 codes)
+- **Benefit:** Scalable, version-controlled, auditable
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerrequisitos
+### Prerequisites
 ```bash
 Python 3.10+
 Git
 ```
 
-### Instalación
+### Installation
 
 ```bash
-# 1. Clonar repositorio
+# 1. Clone repository
 git clone https://github.com/emolinasaez/bi-supermarket-data.git
 cd bi-supermarket-data
 
-# 2. Crear entorno virtual
+# 2. Create virtual environment
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 3. Instalar dependencias
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Configurar Kaggle API (opcional, para re-ingesta)
-# Colocar kaggle.json en ~/.kaggle/
+# 4. Configure Kaggle API (optional, for re-ingestion)
+# Place kaggle.json in ~/.kaggle/
 
-# 5. Ejecutar transformaciones dbt
+# 5. Run dbt transformations
 cd dwh
+dbt seed  # Load excluded_stock_codes.csv
 dbt run
 
-# 6. Ejecutar tests de calidad
+# 6. Run quality tests
 dbt test
 
-# 7. Ver presentación
-# Abrir docs/index.html en navegador
+# 7. View interactive report
+# Open docs/index.html in browser
 ```
 
-### Comandos dbt Útiles
+### Useful dbt Commands
 
 ```bash
-# Ejecutar solo Silver layer
+# Run only Silver layer
 dbt run --select silver.*
 
-# Ejecutar solo Gold layer
+# Run only Gold layer
 dbt run --select gold.*
 
-# Ejecutar un pilar específico
+# Run specific pillar
 dbt run --select gold.1_financial_performance.*
 
-# Ver documentación
+# View documentation
 dbt docs generate
 dbt docs serve
 
-# Ejecutar tests
+# Run tests
 dbt test --select silver.*
 ```
 
@@ -251,7 +265,7 @@ dbt test --select silver.*
 
 ```
 bi-supermarket-data/
-├── data/                          # Datos crudos (gitignored)
+├── data/                          # Raw data (gitignored)
 ├── dwh/                           # Data Warehouse (dbt)
 │   ├── models/
 │   │   ├── bronze/               # Raw data
@@ -263,6 +277,8 @@ bi-supermarket-data/
 │   │       ├── 2_customer_analytics/
 │   │       ├── 3_operational_excellence/
 │   │       └── 4_product_intelligence/
+│   ├── seeds/
+│   │   └── excluded_stock_codes.csv  # Non-product codes
 │   ├── dbt_project.yml
 │   └── profiles.yml
 ├── src/                           # Python scripts
@@ -270,10 +286,10 @@ bi-supermarket-data/
 │       └── extract_presentation_data.py
 ├── notebooks/                     # Jupyter notebooks
 │   └── data_quality_checks.ipynb
-├── docs/                          # Documentation & Presentation
-│   ├── index.html                # Presentación ES
-│   ├── index-en.html             # Presentation EN
-│   ├── presentation_data.json    # Metrics data
+├── docs/                          # Documentation & Report
+│   ├── index.html                # Report ES
+│   ├── index-en.html             # Report EN
+│   ├── presentation_data.json    # Metrics data (frozen snapshot)
 │   ├── executive_presentation_strategy.md
 │   └── data_quality_findings.md
 └── README.md
@@ -283,25 +299,25 @@ bi-supermarket-data/
 
 ## 📈 Key Insights & Recommendations
 
-### 1. Implementar Contabilidad de Costos Reales
-**Problema:** £429K en pérdidas no contabilizadas  
-**Acción:** Imputar costos promedio a ajustes de inventario  
-**Impacto:** Estados financieros precisos, mejor toma de decisiones
+### 1. Implement Real Cost Accounting
+**Problem:** £257K in unaccounted losses (COGS)  
+**Action:** Impute average costs to inventory adjustments  
+**Impact:** Accurate financial statements, better decision-making
 
-### 2. Programa de Retención de Clientes en Riesgo
-**Problema:** 1,392 clientes "At Risk" (32% de la base)  
-**Acción:** Campaña de reactivación personalizada  
-**Impacto:** Retener 50% = £245K/año en revenue
+### 2. At-Risk Customer Retention Program
+**Problem:** 1,392 "At Risk" customers (32% of base)  
+**Action:** Personalized reactivation campaign  
+**Impact:** Retain 50% = £245K/year in revenue
 
-### 3. Descontinuar Productos Zombie
-**Problema:** 53 productos con revenue mínimo y alta devolución  
-**Acción:** Eliminar del catálogo, liberar inventario  
-**Impacto:** £50K/año en costos operativos
+### 3. Discontinue Zombie Products
+**Problem:** 53 products with minimal revenue and high returns  
+**Action:** Remove from catalog, free up inventory  
+**Impact:** £50K/year in operational costs
 
-### 4. Investigar Evento Cisne Negro
-**Problema:** Semana 2011-W24 con 28,258 unidades perdidas  
-**Acción:** Root cause analysis, implementar controles  
-**Impacto:** Prevenir recurrencia, £100K/año en eficiencia
+### 4. Investigate Black Swan Event
+**Problem:** Week 2011-W24 with 28,258 units lost  
+**Action:** Root cause analysis, implement controls  
+**Impact:** Prevent recurrence, £60K/year in efficiency
 
 ---
 
@@ -313,6 +329,7 @@ bi-supermarket-data/
 - ✅ **DuckDB** - OLAP database for analytics
 - ✅ **Polars** - High-performance data ingestion
 - ✅ **Data Quality** - Automated testing with dbt
+- ✅ **Seed Tables** - Reference data management
 
 ### Analytics & BI
 - ✅ **Six Sigma** - Statistical process control
@@ -320,53 +337,60 @@ bi-supermarket-data/
 - ✅ **CLV Modeling** - Customer lifetime value
 - ✅ **ABC Classification** - Product portfolio optimization
 - ✅ **Anomaly Detection** - Black Swan events
+- ✅ **COGS Estimation** - Financial modeling
 
-### Visualization & Storytelling
+### Presentation & Storytelling
 - ✅ **Chart.js** - Interactive web visualizations
-- ✅ **Storytelling with Data** - Executive presentations
+- ✅ **Storytelling with Data** - Executive narratives
 - ✅ **Harvard Case Method** - Business narrative structure
 - ✅ **Responsive Design** - Mobile-first web development
+- ✅ **Static Site Generation** - Immutable reports
 
 ### Software Engineering
 - ✅ **Python** - Data processing, automation
 - ✅ **SQL** - Complex analytical queries
 - ✅ **Git** - Version control
 - ✅ **Documentation** - Technical & business docs
+- ✅ **Best Practices** - No magic strings, seed tables
 
 ---
 
 ## 📚 Documentation
 
+- **[Interactive Executive Report](https://emolinasaez.github.io/bi-supermarket-data/)** - Live presentation
 - **[Executive Presentation Strategy](docs/executive_presentation_strategy.md)** - Storytelling framework
 - **[Data Quality Findings](docs/data_quality_findings.md)** - EDA results
 - **[Project Structure](PROJECT_STRUCTURE.md)** - Directory organization
-- **[Enterprise Analytics Strategy](docs/enterprise_analytics_strategy.md)** - 4 Pillars design
 
 ---
 
 ## 🎓 Learning Outcomes
 
-Este proyecto demuestra competencia en:
+This project demonstrates competence in:
 
-1. **Arquitectura de Datos Moderna**
-   - Diseño e implementación de Medallion Architecture
-   - Separación de concerns (Bronze/Silver/Gold)
-   - Data quality testing automatizado
+1. **Modern Data Architecture**
+   - Design and implementation of Medallion Architecture
+   - Separation of concerns (Bronze/Silver/Gold)
+   - Automated data quality testing
+   - Reference data management with seeds
 
-2. **Análisis de Negocio**
-   - Traducción de datos a insights accionables
-   - Cuantificación de impacto financiero
-   - Priorización de iniciativas por ROI
+2. **Business Analysis**
+   - Translation of data to actionable insights
+   - Quantification of financial impact
+   - Prioritization of initiatives by ROI
+   - **Critical:** COGS vs Retail Price distinction
 
-3. **Comunicación Ejecutiva**
-   - Presentaciones data-driven
-   - Storytelling con estructura de 3 actos
-   - Visualizaciones impactantes
+3. **Executive Communication**
+   - Data-driven presentations
+   - Storytelling with 3-act structure
+   - Impactful visualizations
+   - **Strategic positioning:** Report vs Dashboard
 
-4. **Metodologías Analíticas**
-   - Six Sigma para control de calidad
-   - RFM para segmentación de clientes
-   - Portfolio analysis para optimización de productos
+4. **Analytical Methodologies**
+   - Six Sigma for quality control
+   - RFM for customer segmentation
+   - Portfolio analysis for product optimization
+   - Financial modeling for cost estimation
 
 ---
 
@@ -383,13 +407,13 @@ Data Analytics Professional | Business Intelligence | Data Engineering
 
 ## 📄 License
 
-Este proyecto utiliza datos públicos del [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Online+Retail) para fines educativos y de demostración.
+This project uses public data from **Marc Szafraniec** - [Online Retail Sales and Customer Data](https://www.kaggle.com/datasets/marian447/retail-store-sales-transactions) from Kaggle for educational and demonstration purposes.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Dataset:** UCI Machine Learning Repository - Online Retail Dataset
+- **Dataset:** Marc Szafraniec - Online Retail Sales and Customer Data from Kaggle
 - **Inspiration:** Storytelling with Data (Cole Nussbaumer Knaflic)
 - **Methodology:** Harvard Business School Case Method
 - **Tools:** dbt Labs, DuckDB Foundation, Polars
@@ -398,8 +422,10 @@ Este proyecto utiliza datos públicos del [UCI Machine Learning Repository](http
 
 <div align="center">
 
-**[🚀 Ver Demo en Vivo](https://emolinasaez.github.io/bi-supermarket-data/)** | **[📧 Contacto](mailto:emolinasaez@example.com)**
+**[🚀 View Interactive Report](https://emolinasaez.github.io/bi-supermarket-data/)** | **[📧 Contact](mailto:emolinasaez@example.com)**
 
-*Transformando datos en decisiones estratégicas*
+*Transforming data into strategic decisions*
+
+**Format:** Interactive Executive Report (Q3 2011) | **Architecture:** Frozen Snapshot for Narrative Integrity
 
 </div>

@@ -11,9 +11,16 @@
     Objetivo: Análisis de mermas y control operacional
     Incluye: Registros con UnitPrice=0, CustomerID=NULL, Quantity<0
     
+    NOTA FINANCIERA CRÍTICA:
+      - Pérdida de inventario = COSTO de adquisición (COGS), NO precio de venta
+      - Margen retail típico: 40% → COGS estimado = 60% del precio de venta
+      - Esto evita inflar pérdidas incluyendo margen de beneficio esperado
+      - Distinción: Cash Out (COGS) vs Lucro Cesante (Opportunity Cost)
+    
     Transformación crítica:
       - Imputación de precio usando precio promedio del producto
-      - Cálculo de pérdida real (estimated_loss)
+      - Aplicación de factor de costo (0.60) para obtener COGS
+      - Cálculo de pérdida real en términos de costo
       - Clasificación de categoría de pérdida
 */
 
@@ -55,8 +62,12 @@ SELECT
     ia.recorded_price,
     
     -- Imputación de precio
-    COALESCE(p.avg_price, 0) as imputed_price,
-    ia.quantity * COALESCE(p.avg_price, 0) as estimated_loss,
+    -- CRÍTICO: Usamos COSTO estimado (60% del precio retail), NO precio de venta
+    -- Margen retail típico: 40% → COGS = 60% del precio de venta
+    -- Esto evita inflar pérdidas incluyendo margen de beneficio esperado
+    COALESCE(p.avg_price, 0) as imputed_retail_price,
+    COALESCE(p.avg_price, 0) * 0.60 as estimated_cost,
+    ia.quantity * (COALESCE(p.avg_price, 0) * 0.60) as estimated_loss,
     
     -- Clasificación de pérdida
     CASE 

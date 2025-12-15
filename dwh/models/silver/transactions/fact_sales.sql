@@ -12,54 +12,61 @@
     Incluye: SALE y RETURN
     Excluye: 
       - Ajustes de inventario (UnitPrice=0, CustomerID=NULL)
-      - Códigos especiales (M, D, POST, DOT, etc.)
+      - Códigos especiales (referenciados desde seed table)
       - Registros inválidos
     
     Transformaciones:
       - JOIN con dim_products para descripción normalizada
+      - JOIN con excluded_stock_codes (seed) para filtrar no-productos
       - Conversión de tipos de datos
       - Campos calculados (total_sale, year, month, week)
       - Clasificación de transaction_type
 */
 
-WITH classified_transactions AS (
+WITH excluded_codes AS (
+    SELECT stock_code
+    FROM {{ ref('excluded_stock_codes') }}
+),
+
+classified_transactions AS (
     SELECT 
         -- Identificadores
-        "InvoiceNo" as invoice_no,
-        "StockCode" as stock_code,
-        CAST("CustomerID" AS INTEGER) as customer_id,
-        TRIM("Country") as country,
+        b."InvoiceNo" as invoice_no,
+        b."StockCode" as stock_code,
+        CAST(b."CustomerID" AS INTEGER) as customer_id,
+        TRIM(b."Country") as country,
         
         -- Fechas
-        STRPTIME("InvoiceDate", '%m/%d/%Y %H:%M') as invoice_date,
+        STRPTIME(b."InvoiceDate", '%m/%d/%Y %H:%M') as invoice_date,
         
         -- Métricas
-        CAST("Quantity" AS INTEGER) as quantity,
-        CAST("UnitPrice" AS DECIMAL(10,2)) as unit_price,
+        CAST(b."Quantity" AS INTEGER) as quantity,
+        CAST(b."UnitPrice" AS DECIMAL(10,2)) as unit_price,
         
         -- Clasificación de transacción
         CASE 
-            WHEN "InvoiceNo" LIKE 'C%' THEN 'RETURN'
-            WHEN CAST("Quantity" AS INTEGER) > 0 THEN 'SALE'
+            WHEN b."InvoiceNo" LIKE 'C%' THEN 'RETURN'
+            WHEN CAST(b."Quantity" AS INTEGER) > 0 THEN 'SALE'
             ELSE 'OTHER'
         END as transaction_type
         
-    FROM {{ source('bronze', 'raw_data') }}
+    FROM {{ source('bronze', 'raw_data') }} b
+    LEFT JOIN excluded_codes e ON b."StockCode" = e.stock_code
     WHERE 
-        -- Excluir códigos especiales
-        "StockCode" NOT IN ('M', 'D', 'POST', 'DOT', 'BANK CHARGES', 'C2', 'PADS', 'S', 'B')
-        AND LENGTH("StockCode") > 1
+        -- Excluir códigos especiales usando seed table (no hardcoding)
+        e.stock_code IS NULL
+        AND LENGTH(b."StockCode") > 1
         
         -- Excluir ajustes de inventario
-        AND NOT ("UnitPrice" = '0' AND "CustomerID" IS NULL AND CAST("Quantity" AS INTEGER) < 0)
+        AND NOT (b."UnitPrice" = '0' AND b."CustomerID" IS NULL AND CAST(b."Quantity" AS INTEGER) < 0)
         
         -- Validaciones básicas
-        AND "StockCode" IS NOT NULL
-        AND "InvoiceNo" IS NOT NULL
-        AND "InvoiceDate" IS NOT NULL
-        AND "UnitPrice" IS NOT NULL
-        AND "Quantity" IS NOT NULL
-        AND CAST("UnitPrice" AS DECIMAL(10,2)) > 0
+        AND b."StockCode" IS NOT NULL
+        AND b."InvoiceNo" IS NOT NULL
+        AND b."InvoiceDate" IS NOT NULL
+        AND b."UnitPrice" IS NOT NULL
+        AND b."Quantity" IS NOT NULL
+        AND CAST(b."UnitPrice" AS DECIMAL(10,2)) > 0
 )
 
 SELECT 

@@ -55,7 +55,7 @@ def get_financial_metrics(conn):
         SELECT 
             loss_category,
             SUM(total_units_lost) as units_lost,
-            SUM(unreported_loss) as unreported_loss
+            SUM(unreported_loss_cogs) as unreported_loss
         FROM main_gold.loss_impact_analysis
         GROUP BY loss_category
         ORDER BY unreported_loss DESC

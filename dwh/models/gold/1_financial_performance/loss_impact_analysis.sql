@@ -8,8 +8,9 @@
 /*
     Loss Impact Analysis - Análisis del impacto financiero de mermas
     
-    Objetivo: Cuantificar pérdidas NO reportadas
-    Crítico: Muestra el costo real de inventario perdido (UnitPrice=0 en Bronze)
+    Objetivo: Cuantificar pérdidas NO reportadas (en términos de COGS)
+    Crítico: Usa COSTO estimado (60% retail), no precio de venta completo
+    Distinción: Cash Out (COGS) vs Lucro Cesante (Opportunity Cost)
 */
 
 SELECT 
@@ -30,14 +31,14 @@ SELECT
     -- Unidades perdidas
     SUM(ABS(quantity)) as total_units_lost,
     
-    -- Impacto financiero
+    -- Impacto financiero (en COGS, no retail price)
     SUM(quantity * recorded_price) as recorded_loss,  -- Siempre 0
-    SUM(quantity * imputed_price) as real_loss,       -- Costo real estimado
-    SUM(quantity * imputed_price) - SUM(quantity * recorded_price) as unreported_loss,
+    SUM(quantity * estimated_cost) as real_loss_cogs,  -- Costo real estimado (COGS)
+    SUM(quantity * estimated_cost) - SUM(quantity * recorded_price) as unreported_loss_cogs,
     
     -- Promedio por incidente
     AVG(ABS(quantity)) as avg_units_per_incident,
-    AVG(ABS(quantity * imputed_price)) as avg_loss_per_incident,
+    AVG(ABS(quantity * estimated_cost)) as avg_loss_per_incident_cogs,
     
     -- Metadatos
     CURRENT_TIMESTAMP as processed_at

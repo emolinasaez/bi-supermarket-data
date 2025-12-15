@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2025-12-15T00:17:33.492448",
+    "generated_at": "2025-12-15T00:55:12.808811",
     "database": "D:\\github_projects\\bi-supermarket-data\\dwh\\retail_analytics.duckdb",
     "version": "1.0.0"
   },
@@ -111,32 +111,32 @@
       {
         "category": "BROKEN",
         "units": 30,
-        "amount": 251.71
+        "amount": 151.03
       },
       {
         "category": "LOST",
         "units": 3061,
-        "amount": 2643.49
+        "amount": 1586.1
       },
       {
         "category": "DISCARDED",
         "units": 42229,
-        "amount": 40877.67
+        "amount": 24526.6
       },
       {
         "category": "UNSALEABLE",
         "units": 17325,
-        "amount": 42639.71
+        "amount": 25583.83
       },
       {
         "category": "DAMAGED",
         "units": 22349,
-        "amount": 88118.27
+        "amount": 52870.96
       },
       {
         "category": "OTHER",
         "units": 121963,
-        "amount": 254879.67
+        "amount": 152927.8
       }
     ]
   },
