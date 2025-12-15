@@ -54,7 +54,9 @@ Thumbs.db
 
 # Jupyter Notebooks
 .ipynb_checkpoints/
+# Ignore all notebooks except those in notebooks/ directory
 *.ipynb
+!notebooks/*.ipynb
 
 # Data files (if any local cache)
 data/

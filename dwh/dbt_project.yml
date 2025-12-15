@@ -1,0 +1,63 @@
+name: 'retail_analytics'
+version: '1.0.0'
+config-version: 2
+
+# Especificar el perfil a usar (debe coincidir con profiles.yml)
+profile: 'retail_analytics'
+
+# Directorios
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Configuración de limpieza
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuración de modelos
+models:
+  retail_analytics:
+    # Bronze layer
+    bronze:
+      +materialized: table
+      +schema: bronze
+    
+    # Silver layer
+    silver:
+      +materialized: table
+      +schema: silver
+      
+      foundation:
+        +materialized: table
+      
+      transactions:
+        +materialized: table
+      
+      aggregations:
+        +materialized: table
+    
+    # Gold layer
+    gold:
+      +materialized: table
+      +schema: gold
+      
+      1_financial_performance:
+        +materialized: table
+      
+      2_customer_analytics:
+        +materialized: table
+      
+      3_operational_excellence:
+        +materialized: table
+      
+      4_product_intelligence:
+        +materialized: table
+
+# Configuración de tests
+tests:
+  +store_failures: true
+  +schema: test_results

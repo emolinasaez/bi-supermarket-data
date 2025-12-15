@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Analytics - Executive Presentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2E86AB;
+            --accent: #FF6B6B;
+            --success: #06D6A0;
+            --warning: #FFD166;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-switch a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0 0.5rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a5f7a 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .shock-number {
+            font-size: 6rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 2rem 0;
+            animation: pulse 2s infinite;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, var(--warning) 0%, var(--warning) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 0.2rem;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 0.5rem;
+        }
+
+        .pill-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .pill-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .pill-danger {
+            background: var(--accent);
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Switch -->
+    <div class="lang-switch">
+        <a href="index-en.html" style="background: var(--primary); color: white;">English</a>
+        <a href="index.html">Español</a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>The Hidden Crisis</h1>
+        <div class="shock-number">£429,410</div>
+        <p>in unreported losses discovered through data analysis</p>
+        <p style="margin-top: 2rem; font-size: 1.2rem; opacity: 0.9;">
+            What if your profit statements are inflated by costs you didn't even know existed?
+        </p>
+    </section>
+
+    <!-- ACT 1: THE PROBLEM -->
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Act 1: The Problem We Didn't Know We Had</h2>
+
+            <div class="card">
+                <h3>The Discovery</h3>
+                <p style="font-size: 1.2rem; margin: 1rem 0;">
+                    Analysis of <strong>541,909 transactions</strong> (Dec 2010 - Sep 2011) revealed a critical flaw in
+                    our accounting:
+                </p>
+                <p style="font-size: 1.3rem; color: var(--accent); font-weight: bold; margin: 2rem 0;">
+                    1,336 inventory adjustments recorded at £0.00 cost
+                </p>
+            </div>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Reported Revenue</div>
+                    <div class="metric-value">£9.56M</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Hidden Losses</div>
+                    <div class="metric-value" style="color: var(--accent);">£429K</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Actual Profit</div>
+                    <div class="metric-value" style="color: var(--success);">£9.13M</div>
+                </div>
+            </div>
+
+            <!-- Revenue Waterfall Chart -->
+            <div class="card">
+                <h3>Revenue Waterfall: From Gross to Adjusted</h3>
+                <div class="chart-container">
+                    <canvas id="waterfallChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Three Critical Data Quality Issues</h3>
+                <div style="margin: 2rem 0;">
+                    <div style="margin: 1.5rem 0;">
+                        <span class="pill pill-danger">Problem 1</span>
+                        <strong>Inconsistent Product Data (15.97% affected)</strong>
+                        <p>Same product, multiple names → Fragmented analysis</p>
+                    </div>
+                    <div style="margin: 1.5rem 0;">
+                        <span class="pill pill-danger">Problem 2</span>
+                        <strong>Zero-Cost Inventory Adjustments (1,336 records)</strong>
+                        <p>Damaged/lost goods at £0.00 → <span class="highlight">Inflated profitability</span></p>
+                    </div>
+                    <div style="margin: 1.5rem 0;">
+                        <span class="pill pill-danger">Problem 3</span>
+                        <strong>Mixed Transaction Types (0.53% contamination)</strong>
+                        <p>Discounts, postage mixed with sales → Unreliable revenue analysis</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACT 2: THE SOLUTION -->
+        <section class="section">
+            <h2 class="section-title">Act 2: The Solution - Four Pillars of Intelligence</h2>
+
+            <!-- Pillar 1: Financial Performance -->
+            <div class="card">
+                <h3>💰 Pillar 1: Financial Performance</h3>
+                <p>True financial health visibility with adjusted profit calculations</p>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Gross Revenue</div>
+                        <div class="metric-value">£10.29M</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Returns</div>
+                        <div class="metric-value" style="color: var(--warning);">-£722K</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Real Losses</div>
+                        <div class="metric-value" style="color: var(--accent);">-£429K</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Adjusted Profit</div>
+                        <div class="metric-value" style="color: var(--success);">£9.13M</div>
+                    </div>
+                </div>
+
+                <!-- Loss by Category Chart -->
+                <div class="chart-container">
+                    <canvas id="lossCategoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Pillar 2: Customer Analytics -->
+            <div class="card">
+                <h3>👥 Pillar 2: Customer Intelligence</h3>
+                <p>RFM Segmentation reveals customer value distribution</p>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Customers</div>
+                        <div class="metric-value">4,342</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Champions</div>
+                        <div class="metric-value" style="color: var(--success);">981</div>
+                        <p style="font-size: 0.9rem; color: #666;">£5.72M revenue</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">At Risk</div>
+                        <div class="metric-value" style="color: var(--accent);">1,392</div>
+                        <p style="font-size: 0.9rem; color: #666;">£491K revenue</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Top Customer CLV</div>
+                        <div class="metric-value">£9.24M</div>
+                        <p style="font-size: 0.9rem; color: #666;">Customer 18139</p>
+                    </div>
+                </div>
+
+                <!-- Customer Segmentation Chart -->
+                <div class="chart-container">
+                    <canvas id="customerSegmentChart"></canvas>
+                </div>
+
+                <div style="background: #f0f8ff; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+                    <strong>Key Insight:</strong> Top 20% of customers (Champions + Big Spenders) generate
+                    <span class="highlight">71% of total revenue</span> (£6.79M of £9.56M)
+                </div>
+            </div>
+
+            <!-- Pillar 3: Operational Excellence -->
+            <div class="card">
+                <h3>⚙️ Pillar 3: Operational Excellence</h3>
+                <p>Six Sigma control charts for weekly loss monitoring</p>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Weeks Analyzed</div>
+                        <div class="metric-value">53</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Weekly Loss</div>
+                        <div class="metric-value">1,934</div>
+                        <p style="font-size: 0.9rem; color: #666;">units</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">UCL (3σ)</div>
+                        <div class="metric-value" style="color: var(--warning);">12,808</div>
+                        <p style="font-size: 0.9rem; color: #666;">units</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Black Swan Events</div>
+                        <div class="metric-value" style="color: var(--accent);">1</div>
+                        <p style="font-size: 0.9rem; color: #666;">Week 2011-W24</p>
+                    </div>
+                </div>
+
+                <!-- BLACK SWAN CONTROL CHART (CRITICAL) -->
+                <div class="chart-container" style="height: 500px;">
+                    <canvas id="blackSwanChart"></canvas>
+                </div>
+
+                <h4>🦢 Black Swan Event Detected</h4>
+                <div
+                    style="background: #fff5f5; border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0;">
+                    <p><strong>Week 2011-W24:</strong> 28,258 units lost (7.26σ above normal)</p>
+                    <p>Category: DISCARDED | Financial Impact: £13,780</p>
+                    <p style="margin-top: 1rem; color: var(--accent);">
+                        <strong>Action Required:</strong> Investigate root cause and implement preventive measures
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pillar 4: Product Intelligence -->
+            <div class="card">
+                <h3>📦 Pillar 4: Product Intelligence</h3>
+                <p>Portfolio optimization through Star vs Zombie classification</p>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Products</div>
+                        <div class="metric-value">3,913</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">⭐ Star Products</div>
+                        <div class="metric-value" style="color: var(--success);">698</div>
+                        <p style="font-size: 0.9rem; color: #666;">£6.85M revenue</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">🧟 Zombie Products</div>
+                        <div class="metric-value" style="color: var(--accent);">53</div>
+                        <p style="font-size: 0.9rem; color: #666;">£2,364 revenue</p>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">⚠️ Problem Products</div>
+                        <div class="metric-value" style="color: var(--warning);">95</div>
+                        <p style="font-size: 0.9rem; color: #666;">50.85% return rate</p>
+                    </div>
+                </div>
+
+                <!-- Product Portfolio Chart -->
+                <div class="chart-container">
+                    <canvas id="productPortfolioChart"></canvas>
+                </div>
+
+                <h4>Top 5 Star Products</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Revenue</th>
+                            <th>Units Sold</th>
+                            <th>Return Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PARTY BUNTING</td>
+                            <td>£99,504</td>
+                            <td>18,295</td>
+                            <td>1.51%</td>
+                        </tr>
+                        <tr>
+                            <td>JUMBO BAG RED RETROSPOT</td>
+                            <td>£94,340</td>
+                            <td>48,474</td>
+                            <td>2.30%</td>
+                        </tr>
+                        <tr>
+                            <td>RABBIT NIGHT LIGHT</td>
+                            <td>£66,965</td>
+                            <td>30,788</td>
+                            <td>0.35%</td>
+                        </tr>
+                        <tr>
+                            <td>PAPER CHAIN KIT 50'S CHRISTMAS</td>
+                            <td>£64,952</td>
+                            <td>19,355</td>
+                            <td>2.34%</td>
+                        </tr>
+                        <tr>
+                            <td>ASSORTED COLOUR BIRD ORNAMENT</td>
+                            <td>£59,095</td>
+                            <td>36,461</td>
+                            <td>0.22%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ACT 3: THE OPPORTUNITY -->
+        <section class="section">
+            <h2 class="section-title">Act 3: The Opportunity</h2>
+
+            <div class="card">
+                <h3>Projected Annual Impact</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Initiative</th>
+                            <th>Annual Savings</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Loss Prevention</strong> (impute real costs)</td>
+                            <td>£429,410</td>
+                            <td><span class="pill pill-success">High</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inventory Optimization</strong> (eliminate zombies)</td>
+                            <td>£50,000</td>
+                            <td><span class="pill pill-warning">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Customer Retention</strong> (save at-risk VIPs)</td>
+                            <td>£245,000</td>
+                            <td><span class="pill pill-success">High</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operational Efficiency</strong> (reduce anomalies)</td>
+                            <td>£100,000</td>
+                            <td><span class="pill pill-warning">Medium</span></td>
+                        </tr>
+                        <tr style="background: #f0f8ff; font-weight: bold;">
+                            <td>TOTAL OPPORTUNITY</td>
+                            <td>£824,410</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card"
+                style="text-align: center; background: linear-gradient(135deg, var(--primary) 0%, #1a5f7a 100%); color: white;">
+                <h3 style="color: white;">The Ask</h3>
+                <p style="font-size: 1.3rem; margin: 2rem 0;">
+                    We've uncovered <strong>£824K+</strong> in annual opportunities.
+                </p>
+                <p style="font-size: 1.5rem; margin: 2rem 0;">
+                    The question isn't whether we can afford to act—<br>
+                    <strong>it's whether we can afford not to.</strong>
+                </p>
+                <a href="https://github.com/emolinasaez/bi-supermarket-data" class="cta-button"
+                    style="margin-top: 2rem;">
+                    View Full Analysis on GitHub
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Retail Analytics - Executive Presentation</p>
+        <p>Data-Driven Transformation | Medallion Architecture | 4 Analytical Pillars</p>
+        <p style="margin-top: 1rem; opacity: 0.7;">Generated: December 2025</p>
+    </footer>
+
+    <script>
+        // Data from presentation_data.json
+        const weeklyData = [1398, 2567, 45, 36, 1861, 4511, 2043, 490, 3354, 453, 1230, 682, 1456, 19101, 117, 5199, 2418, 6041, 1323, 370, 1207, 2824, 3354, 2229, 4759, 748, 5076, 30566, 6322, 2656, 1061, 3897, 3587, 1834, 3348, 646, 889, 400, 9294, 1420, 5614, 1655, 1375, 9317, 2718, 228, 4612, 18184, 4295, 6127, 4786, 3645, 3589];
+        const weekLabels = ['W48', 'W49', 'W50', 'W51', 'W01', 'W02', 'W03', 'W04', 'W05', 'W06', 'W07', 'W08', 'W09', 'W10', 'W11', 'W12', 'W13', 'W14', 'W15', 'W16', 'W17', 'W18', 'W19', 'W20', 'W21', 'W22', 'W23', 'W24', 'W25', 'W26', 'W27', 'W28', 'W29', 'W30', 'W31', 'W32', 'W33', 'W34', 'W35', 'W36', 'W37', 'W38', 'W39', 'W40', 'W41', 'W42', 'W43', 'W44', 'W45', 'W46', 'W47', 'W48', 'W49'];
+
+        const mean = 1934.18;
+        const stddev = 3624.53;
+        const ucl = mean + 3 * stddev;
+        const lcl = Math.max(0, mean - 3 * stddev);
+
+        // BLACK SWAN CONTROL CHART (CRITICAL)
+        const blackSwanCtx = document.getElementById('blackSwanChart').getContext('2d');
+        new Chart(blackSwanCtx, {
+            type: 'line',
+            data: {
+                labels: weekLabels,
+                datasets: [{
+                    label: 'Units Lost',
+                    data: weeklyData,
+                    borderColor: '#2E86AB',
+                    backgroundColor: 'rgba(46, 134, 171, 0.1)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointBackgroundColor: weeklyData.map(v => v > ucl ? '#FF6B6B' : '#2E86AB')
+                }, {
+                    label: 'Mean (μ)',
+                    data: Array(weekLabels.length).fill(mean),
+                    borderColor: '#06D6A0',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 0
+                }, {
+                    label: 'UCL (3σ)',
+                    data: Array(weekLabels.length).fill(ucl),
+                    borderColor: '#FFD166',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '🦢 Six Sigma Control Chart - Weekly Inventory Losses',
+                        font: { size: 16, weight: 'bold' }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Units Lost'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Week'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Revenue Waterfall Chart
+        const waterfallCtx = document.getElementById('waterfallChart').getContext('2d');
+        new Chart(waterfallCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Gross Revenue', 'Returns', 'Net Revenue', 'Real Losses', 'Adjusted Profit'],
+                datasets: [{
+                    label: '£ (thousands)',
+                    data: [10285.88, -721.94, 9563.94, -429.41, 9134.53],
+                    backgroundColor: ['#06D6A0', '#FF6B6B', '#2E86AB', '#FF6B6B', '#06D6A0']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Revenue Waterfall (£ thousands)',
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '£ (thousands)' }
+                    }
+                }
+            }
+        });
+
+        // Loss by Category Chart
+        const lossCategoryCtx = document.getElementById('lossCategoryChart').getContext('2d');
+        new Chart(lossCategoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Other', 'Damaged', 'Unsaleable', 'Discarded', 'Lost', 'Broken'],
+                datasets: [{
+                    data: [254879.67, 88118.27, 42639.71, 40877.67, 2643.49, 251.71],
+                    backgroundColor: ['#FF6B6B', '#FFD166', '#2E86AB', '#06D6A0', '#A8DADC', '#457B9D']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Losses by Category (£)',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                }
+            }
+        });
+
+        // Customer Segmentation Chart
+        const customerSegmentCtx = document.getElementById('customerSegmentChart').getContext('2d');
+        new Chart(customerSegmentCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Champions', 'Loyal Customers', 'Big Spenders', 'At Risk', 'Regular', 'Recent'],
+                datasets: [{
+                    label: 'Number of Customers',
+                    data: [981, 1020, 387, 1392, 319, 243],
+                    backgroundColor: '#2E86AB',
+                    yAxisID: 'y'
+                }, {
+                    label: 'Revenue (£ thousands)',
+                    data: [5721.81, 1301.01, 1072.47, 491.30, 106.01, 68.46],
+                    backgroundColor: '#06D6A0',
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'RFM Customer Segmentation',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'Number of Customers' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Revenue (£ thousands)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // Product Portfolio Chart
+        const productPortfolioCtx = document.getElementById('productPortfolioChart').getContext('2d');
+        new Chart(productPortfolioCtx, {
+            type: 'bar',
+            data: {
+                labels: ['⭐ Stars', '📦 Regular', '⚠️ Problem', '🧟 Zombies'],
+                datasets: [{
+                    label: 'Number of Products',
+                    data: [698, 3067, 95, 53],
+                    backgroundColor: ['#06D6A0', '#2E86AB', '#FFD166', '#FF6B6B']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Product Portfolio Classification',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Products' }
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll and animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .metric-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

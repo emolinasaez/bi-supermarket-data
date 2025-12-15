@@ -1,0 +1,876 @@
+{
+  "metadata": {
+    "generated_at": "2025-12-15T00:17:33.492448",
+    "database": "D:\\github_projects\\bi-supermarket-data\\dwh\\retail_analytics.duckdb",
+    "version": "1.0.0"
+  },
+  "financial": {
+    "total_gross_revenue": 10285879.96,
+    "total_returns": -721939.2,
+    "total_net_revenue": 9563940.76,
+    "total_real_loss": 429410.5301004012,
+    "total_unreported_loss": 429410.5301004012,
+    "total_adjusted_profit": 9134530.2298996,
+    "avg_profit_margin": 95.51529180140695,
+    "avg_return_rate": 3.5310654437280182,
+    "avg_loss_rate": 4.194080492784813,
+    "monthly_trend": [
+      {
+        "month": "2010-12",
+        "revenue": 721157.42,
+        "loss": 12946.43,
+        "profit": 708210.99,
+        "margin": 98.2
+      },
+      {
+        "month": "2011-01",
+        "revenue": 547124.38,
+        "loss": 29976.11,
+        "profit": 517148.27,
+        "margin": 94.52
+      },
+      {
+        "month": "2011-02",
+        "revenue": 489742.95,
+        "loss": 17347.23,
+        "profit": 472395.72,
+        "margin": 96.46
+      },
+      {
+        "month": "2011-03",
+        "revenue": 669672.56,
+        "loss": 34956.79,
+        "profit": 634715.77,
+        "margin": 94.78
+      },
+      {
+        "month": "2011-04",
+        "revenue": 482992.88,
+        "loss": 22049.5,
+        "profit": 460943.38,
+        "margin": 95.43
+      },
+      {
+        "month": "2011-05",
+        "revenue": 719444.28,
+        "loss": 39576.4,
+        "profit": 679867.88,
+        "margin": 94.5
+      },
+      {
+        "month": "2011-06",
+        "revenue": 714790.62,
+        "loss": 95051.68,
+        "profit": 619738.94,
+        "margin": 86.7
+      },
+      {
+        "month": "2011-07",
+        "revenue": 667107.44,
+        "loss": 18534.9,
+        "profit": 648572.54,
+        "margin": 97.22
+      },
+      {
+        "month": "2011-08",
+        "revenue": 680186.87,
+        "loss": 16318.63,
+        "profit": 663868.24,
+        "margin": 97.6
+      },
+      {
+        "month": "2011-09",
+        "revenue": 999368.14,
+        "loss": 20570.09,
+        "profit": 978798.05,
+        "margin": 97.94
+      },
+      {
+        "month": "2011-10",
+        "revenue": 1046323.52,
+        "loss": 64373.22,
+        "profit": 981950.3,
+        "margin": 93.85
+      },
+      {
+        "month": "2011-11",
+        "revenue": 1415178.26,
+        "loss": 49402.1,
+        "profit": 1365776.16,
+        "margin": 96.51
+      },
+      {
+        "month": "2011-12",
+        "revenue": 410851.44,
+        "loss": 8307.45,
+        "profit": 402543.99,
+        "margin": 97.98
+      }
+    ],
+    "loss_by_category": [
+      {
+        "category": "BROKEN",
+        "units": 30,
+        "amount": 251.71
+      },
+      {
+        "category": "LOST",
+        "units": 3061,
+        "amount": 2643.49
+      },
+      {
+        "category": "DISCARDED",
+        "units": 42229,
+        "amount": 40877.67
+      },
+      {
+        "category": "UNSALEABLE",
+        "units": 17325,
+        "amount": 42639.71
+      },
+      {
+        "category": "DAMAGED",
+        "units": 22349,
+        "amount": 88118.27
+      },
+      {
+        "category": "OTHER",
+        "units": 121963,
+        "amount": 254879.67
+      }
+    ]
+  },
+  "customer": {
+    "total_customers": 4342,
+    "rfm_segments": [
+      {
+        "segment": "Champions",
+        "count": 981,
+        "revenue": 5721805.71,
+        "avg_revenue": 5832.63,
+        "avg_frequency": 10.8
+      },
+      {
+        "segment": "Loyal Customers",
+        "count": 1020,
+        "revenue": 1301014.83,
+        "avg_revenue": 1275.5,
+        "avg_frequency": 3.65
+      },
+      {
+        "segment": "Big Spenders",
+        "count": 387,
+        "revenue": 1072473.59,
+        "avg_revenue": 2771.25,
+        "avg_frequency": 3.46
+      },
+      {
+        "segment": "At Risk",
+        "count": 1392,
+        "revenue": 491303.04,
+        "avg_revenue": 352.95,
+        "avg_frequency": 1.53
+      },
+      {
+        "segment": "Regular",
+        "count": 319,
+        "revenue": 106005.72,
+        "avg_revenue": 332.31,
+        "avg_frequency": 1.13
+      },
+      {
+        "segment": "Recent Customers",
+        "count": 243,
+        "revenue": 68463.76,
+        "avg_revenue": 281.74,
+        "avg_frequency": 1.06
+      }
+    ],
+    "clv_tiers": [
+      {
+        "tier": "High Value",
+        "count": 981,
+        "total_clv": 31631558.91,
+        "avg_clv": 32244.2
+      },
+      {
+        "tier": "Medium Value",
+        "count": 1407,
+        "total_clv": 30479021.27,
+        "avg_clv": 21662.42
+      },
+      {
+        "tier": "At Risk Value",
+        "count": 1392,
+        "total_clv": 6654229.38,
+        "avg_clv": 4780.34
+      },
+      {
+        "tier": "Low Value",
+        "count": 562,
+        "total_clv": 633349.5,
+        "avg_clv": 1126.96
+      }
+    ],
+    "top_customers": [
+      {
+        "customer_id": 18139,
+        "country": "United Kingdom",
+        "segment": "Champions",
+        "revenue": 8438.34,
+        "orders": 6,
+        "clv_3year": 9239982.3
+      },
+      {
+        "customer_id": 17850,
+        "country": "United Kingdom",
+        "segment": "Big Spenders",
+        "revenue": 5391.21,
+        "orders": 34,
+        "clv_3year": 5903374.95
+      },
+      {
+        "customer_id": 16986,
+        "country": "United Kingdom",
+        "segment": "Loyal Customers",
+        "revenue": 1873.2,
+        "orders": 2,
+        "clv_3year": 2051154.0
+      },
+      {
+        "customer_id": 17509,
+        "country": "United Kingdom",
+        "segment": "Loyal Customers",
+        "revenue": 6115.14,
+        "orders": 8,
+        "clv_3year": 1116013.05
+      },
+      {
+        "customer_id": 16446,
+        "country": "United Kingdom",
+        "segment": "Big Spenders",
+        "revenue": 168472.5,
+        "orders": 2,
+        "clv_3year": 899889.7
+      },
+      {
+        "customer_id": 14646,
+        "country": "Netherlands",
+        "segment": "Champions",
+        "revenue": 279138.02,
+        "orders": 72,
+        "clv_3year": 865881.39
+      },
+      {
+        "customer_id": 18102,
+        "country": "United Kingdom",
+        "segment": "Champions",
+        "revenue": 259657.3,
+        "orders": 60,
+        "clv_3year": 774726.82
+      },
+      {
+        "customer_id": 15700,
+        "country": "United Kingdom",
+        "segment": "At Risk",
+        "revenue": 696.68,
+        "orders": 2,
+        "clv_3year": 762864.6
+      },
+      {
+        "customer_id": 14893,
+        "country": "United Kingdom",
+        "segment": "Loyal Customers",
+        "revenue": 1237.85,
+        "orders": 2,
+        "clv_3year": 677722.87
+      },
+      {
+        "customer_id": 15332,
+        "country": "Lithuania",
+        "segment": "Big Spenders",
+        "revenue": 1661.06,
+        "orders": 4,
+        "clv_3year": 606286.9
+      }
+    ]
+  },
+  "operational": {
+    "total_weeks": 53,
+    "avg_weekly_loss": 1934.18,
+    "stddev_weekly_loss": 3624.53,
+    "max_weekly_loss": 28258,
+    "weeks_out_of_control": 2,
+    "black_swan_events": 1,
+    "ucl_3sigma": 12807.76,
+    "weekly_trend": [
+      {
+        "week": "2010-W48",
+        "units": 1398,
+        "loss": 4493.88,
+        "z_score": -0.15,
+        "status": "Normal"
+      },
+      {
+        "week": "2010-W49",
+        "units": 2567,
+        "loss": 7987.66,
+        "z_score": 0.16,
+        "status": "Normal"
+      },
+      {
+        "week": "2010-W50",
+        "units": 45,
+        "loss": 353.87,
+        "z_score": -0.52,
+        "status": "Normal"
+      },
+      {
+        "week": "2010-W51",
+        "units": 36,
+        "loss": 111.02,
+        "z_score": -0.52,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W01",
+        "units": 1861,
+        "loss": 5990.29,
+        "z_score": -0.02,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W02",
+        "units": 4511,
+        "loss": 17113.65,
+        "z_score": 0.18,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W03",
+        "units": 2043,
+        "loss": 4769.81,
+        "z_score": 0.03,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W04",
+        "units": 490,
+        "loss": 2102.36,
+        "z_score": -0.4,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W05",
+        "units": 3354,
+        "loss": 6869.41,
+        "z_score": 0.08,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W06",
+        "units": 453,
+        "loss": 1128.48,
+        "z_score": -0.41,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W07",
+        "units": 1230,
+        "loss": 4475.03,
+        "z_score": -0.21,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W08",
+        "units": 682,
+        "loss": 4828.66,
+        "z_score": -0.35,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W09",
+        "units": 1456,
+        "loss": 3298.68,
+        "z_score": -0.14,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W10",
+        "units": 19101,
+        "loss": 18149.49,
+        "z_score": 3.52,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W11",
+        "units": 117,
+        "loss": 478.54,
+        "z_score": -0.5,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W12",
+        "units": 5199,
+        "loss": 7408.25,
+        "z_score": 0.29,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W13",
+        "units": 2418,
+        "loss": 7440.64,
+        "z_score": 0.11,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W14",
+        "units": 6041,
+        "loss": 14505.76,
+        "z_score": 0.92,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W15",
+        "units": 1323,
+        "loss": 2999.89,
+        "z_score": -0.21,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W16",
+        "units": 370,
+        "loss": 717.2,
+        "z_score": -0.46,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W17",
+        "units": 1207,
+        "loss": 2053.49,
+        "z_score": -0.21,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W18",
+        "units": 2824,
+        "loss": 5783.57,
+        "z_score": -0.11,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W19",
+        "units": 3354,
+        "loss": 5371.01,
+        "z_score": 0.12,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W20",
+        "units": 2229,
+        "loss": 9845.41,
+        "z_score": -0.1,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W21",
+        "units": 4759,
+        "loss": 18576.42,
+        "z_score": 0.45,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W22",
+        "units": 748,
+        "loss": 1801.12,
+        "z_score": -0.37,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W23",
+        "units": 5076,
+        "loss": 12631.07,
+        "z_score": 0.82,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W24",
+        "units": 30566,
+        "loss": 24834.12,
+        "z_score": 7.26,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W25",
+        "units": 6322,
+        "loss": 34401.36,
+        "z_score": 1.15,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W26",
+        "units": 2656,
+        "loss": 21450.62,
+        "z_score": -0.07,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W27",
+        "units": 1061,
+        "loss": 2237.21,
+        "z_score": -0.25,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W28",
+        "units": 3897,
+        "loss": 10172.85,
+        "z_score": 0.54,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W29",
+        "units": 3587,
+        "loss": 1661.45,
+        "z_score": 0.46,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W30",
+        "units": 1834,
+        "loss": 4396.79,
+        "z_score": -0.09,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W31",
+        "units": 3348,
+        "loss": 7363.44,
+        "z_score": 0.36,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W32",
+        "units": 646,
+        "loss": 2088.84,
+        "z_score": -0.36,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W33",
+        "units": 889,
+        "loss": 2005.71,
+        "z_score": -0.29,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W34",
+        "units": 400,
+        "loss": 952.2,
+        "z_score": -0.42,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W35",
+        "units": 9294,
+        "loss": 7796.37,
+        "z_score": 2.0,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W36",
+        "units": 1420,
+        "loss": 3553.08,
+        "z_score": -0.14,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W37",
+        "units": 5614,
+        "loss": 5364.61,
+        "z_score": 0.97,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W38",
+        "units": 1655,
+        "loss": 3702.62,
+        "z_score": -0.08,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W39",
+        "units": 1375,
+        "loss": 4061.85,
+        "z_score": -0.27,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W40",
+        "units": 9317,
+        "loss": 17746.28,
+        "z_score": 2.03,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W41",
+        "units": 2718,
+        "loss": 6712.51,
+        "z_score": 0.08,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W42",
+        "units": 228,
+        "loss": 1383.49,
+        "z_score": -0.5,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W43",
+        "units": 4612,
+        "loss": 11623.67,
+        "z_score": 0.5,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W44",
+        "units": 18184,
+        "loss": 29765.18,
+        "z_score": 3.78,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W45",
+        "units": 4295,
+        "loss": 11535.69,
+        "z_score": 0.29,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W46",
+        "units": 6127,
+        "loss": 10285.91,
+        "z_score": 0.93,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W47",
+        "units": 4786,
+        "loss": 21715.93,
+        "z_score": 0.57,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W48",
+        "units": 3645,
+        "loss": 3847.4,
+        "z_score": 0.1,
+        "status": "Normal"
+      },
+      {
+        "week": "2011-W49",
+        "units": 3589,
+        "loss": 7466.7,
+        "z_score": 0.01,
+        "status": "Normal"
+      }
+    ],
+    "black_swans": [
+      {
+        "week": "2011-W24",
+        "category": "DISCARDED",
+        "units": 28258,
+        "loss": 13779.84,
+        "z_score": 7.26
+      },
+      {
+        "week": "2011-W44",
+        "category": "UNSALEABLE",
+        "units": 15644,
+        "loss": 24799.5,
+        "z_score": 3.78
+      },
+      {
+        "week": "2011-W10",
+        "category": "OTHER",
+        "units": 14679,
+        "loss": 8837.99,
+        "z_score": 3.52
+      }
+    ]
+  },
+  "product": {
+    "total_products": 3913,
+    "classification": [
+      {
+        "type": "Star Product",
+        "count": 698,
+        "revenue": 6851604.24,
+        "avg_return_rate": 1.21
+      },
+      {
+        "type": "Regular Product",
+        "count": 3067,
+        "revenue": 2860098.19,
+        "avg_return_rate": 1.08
+      },
+      {
+        "type": "Problem Product",
+        "count": 95,
+        "revenue": 571813.4,
+        "avg_return_rate": 50.85
+      },
+      {
+        "type": "Zombie Product",
+        "count": 53,
+        "revenue": 2364.13,
+        "avg_return_rate": 60.26
+      }
+    ],
+    "top_products": [
+      {
+        "code": "47566",
+        "name": "PARTY BUNTING",
+        "revenue": 99504.33,
+        "units": 18295,
+        "return_rate": 1.51,
+        "classification": "Star Product"
+      },
+      {
+        "code": "85099B",
+        "name": "JUMBO BAG RED RETROSPOT",
+        "revenue": 94340.05,
+        "units": 48474,
+        "return_rate": 2.3,
+        "classification": "Star Product"
+      },
+      {
+        "code": "23084",
+        "name": "RABBIT NIGHT LIGHT",
+        "revenue": 66964.99,
+        "units": 30788,
+        "return_rate": 0.35,
+        "classification": "Star Product"
+      },
+      {
+        "code": "22086",
+        "name": "PAPER CHAIN KIT 50'S CHRISTMAS ",
+        "revenue": 64952.29,
+        "units": 19355,
+        "return_rate": 2.34,
+        "classification": "Star Product"
+      },
+      {
+        "code": "84879",
+        "name": "ASSORTED COLOUR BIRD ORNAMENT",
+        "revenue": 59094.93,
+        "units": 36461,
+        "return_rate": 0.22,
+        "classification": "Star Product"
+      },
+      {
+        "code": "79321",
+        "name": "CHILLI LIGHTS",
+        "revenue": 54117.76,
+        "units": 10306,
+        "return_rate": 0.78,
+        "classification": "Star Product"
+      },
+      {
+        "code": "22502",
+        "name": "PICNIC BASKET WICKER SMALL",
+        "revenue": 51426.62,
+        "units": 1940,
+        "return_rate": 3.87,
+        "classification": "Star Product"
+      },
+      {
+        "code": "22197",
+        "name": "POPCORN HOLDER",
+        "revenue": 51354.02,
+        "units": 56921,
+        "return_rate": 0.83,
+        "classification": "Star Product"
+      },
+      {
+        "code": "23298",
+        "name": "SPOTTY BUNTING",
+        "revenue": 43182.83,
+        "units": 8473,
+        "return_rate": 1.3,
+        "classification": "Star Product"
+      },
+      {
+        "code": "22386",
+        "name": "JUMBO BAG PINK POLKADOT",
+        "revenue": 42436.24,
+        "units": 21465,
+        "return_rate": 2.12,
+        "classification": "Star Product"
+      }
+    ],
+    "zombie_products": [
+      {
+        "code": "20703",
+        "name": "BLUE PADDED SOFT MOBILE",
+        "revenue": 4.25,
+        "return_rate": 700.0
+      },
+      {
+        "code": "22034",
+        "name": "ROBIN CHRISTMAS CARD",
+        "revenue": 5.02,
+        "return_rate": 120.0
+      },
+      {
+        "code": "23630",
+        "name": "SET 10 CARDS HANGING BAUBLES 17080",
+        "revenue": 5.48,
+        "return_rate": 50.0
+      },
+      {
+        "code": "47013C",
+        "name": "WINE BOTTLE DRESSING DARK BLUE",
+        "revenue": 12.97,
+        "return_rate": 23.08
+      },
+      {
+        "code": "72815",
+        "name": "3 WICK CHRISTMAS BRIAR CANDLE ",
+        "revenue": 15.97,
+        "return_rate": 133.33
+      },
+      {
+        "code": "21144",
+        "name": "PINK POODLE HANGING DECORATION ",
+        "revenue": 16.8,
+        "return_rate": 240.0
+      },
+      {
+        "code": "84856S",
+        "name": "SMALL TAHITI BEACH BAG",
+        "revenue": 18.6,
+        "return_rate": 25.0
+      },
+      {
+        "code": "85047",
+        "name": "WHITE BEADED GARLAND STRING 20LIGHT",
+        "revenue": 19.05,
+        "return_rate": 100.0
+      },
+      {
+        "code": "90176A",
+        "name": "CLASSIC DIAMANTE NECKLACE JET",
+        "revenue": 22.48,
+        "return_rate": 33.33
+      },
+      {
+        "code": "90076",
+        "name": "MONTANA DIAMOND CLUSTER EARRINGS",
+        "revenue": 24.12,
+        "return_rate": 11.11
+      }
+    ]
+  }
+}

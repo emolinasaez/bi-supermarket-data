@@ -4,7 +4,7 @@ Script de Ingesta de Datos - Capa Bronze
 Descarga y carga datos desde URL externa directamente a DuckDB
 utilizando Polars para procesamiento eficiente.
 
-Autor: Eduardo Molina Sáez
+Autor: Esteban Molina Sáez
 Fecha: 2024
 """
 
@@ -28,8 +28,8 @@ class BronzeIngestion:
         """Inicializar configuración desde variables de entorno."""
         load_dotenv()
         self.dataset_url = os.getenv("DATASET_URL")  # Fallback si no se usa Kaggle
-        self.kaggle_dataset = os.getenv("KAGGLE_DATASET", "thedevastator/online-retail-sales-and-customer-data")
-        self.kaggle_file = os.getenv("KAGGLE_FILE", "Online Retail.csv")
+        self.kaggle_dataset = os.getenv("KAGGLE_DATASET", "vijayuv/onlineretail")
+        self.kaggle_file = os.getenv("KAGGLE_FILE", "OnlineRetail.csv")
         self.duckdb_path = os.getenv("DUCKDB_PATH", "dwh/retail_analytics.duckdb")
         
         logger.info("Configuración cargada exitosamente")
@@ -40,32 +40,66 @@ class BronzeIngestion:
     def download_and_load_data(self):
         """
         Descarga datos desde Kaggle usando KaggleHub y los carga en Polars.
-        Utiliza la API de Kaggle para acceso directo al dataset.
+        Maneja problemas de codificación del archivo CSV.
         """
         try:
             logger.info("Iniciando descarga de datos desde Kaggle...")
-            logger.info("Dataset: thedevastator/online-retail-sales-and-customer-data")
+            logger.info(f"Dataset: {self.kaggle_dataset}")
             
             # Importar kagglehub
             import kagglehub
-            from kagglehub import KaggleDatasetAdapter
             
-            # Cargar dataset directamente como LazyFrame de Polars
-            # El archivo principal del dataset es "Online Retail.csv"
-            logger.info("Cargando dataset con KaggleHub...")
+            # Descargar dataset (devuelve la ruta local del archivo)
+            logger.info("Descargando dataset con KaggleHub...")
+            dataset_path = kagglehub.dataset_download(self.kaggle_dataset)
             
-            lf = kagglehub.load_dataset(
-                KaggleDatasetAdapter.POLARS,
-                "thedevastator/online-retail-sales-and-customer-data",
-                "Online Retail.csv",  # Archivo específico del dataset
-                polars_frame_type="lazy"  # Usar LazyFrame para eficiencia
-            )
+            logger.info(f"Dataset descargado en: {dataset_path}")
             
-            # Materializar el LazyFrame
-            logger.info("Materializando datos...")
-            df = lf.collect()
+            # Construir ruta completa al archivo CSV
+            import pathlib
+            csv_path = pathlib.Path(dataset_path) / self.kaggle_file
             
-            logger.info(f"Datos descargados exitosamente: {df.shape[0]} filas, {df.shape[1]} columnas")
+            if not csv_path.exists():
+                # Buscar el archivo en el directorio
+                files = list(pathlib.Path(dataset_path).glob("*.csv"))
+                if files:
+                    csv_path = files[0]
+                    logger.info(f"Usando archivo encontrado: {csv_path.name}")
+                else:
+                    raise FileNotFoundError(f"No se encontró {self.kaggle_file} en {dataset_path}")
+            
+            # Leer CSV con Polars especificando encoding y schema
+            logger.info("Cargando CSV con Polars...")
+            
+            # Schema overrides para manejar tipos correctamente
+            # InvoiceNo debe ser string porque puede empezar con 'C' (cancelaciones)
+            # InvoiceDate como string para parsear manualmente después
+            schema_overrides = {
+                "InvoiceNo": pl.Utf8,
+                "StockCode": pl.Utf8,
+                "CustomerID": pl.Utf8,  # Puede tener valores nulos
+                "InvoiceDate": pl.Utf8  # Leer como string, parsear después
+            }
+            
+            try:
+                # Intentar con encoding ISO-8859-1 (Latin-1) que es común en datasets europeos
+                df = pl.read_csv(
+                    csv_path,
+                    encoding="iso8859-1",
+                    schema_overrides=schema_overrides,
+                    infer_schema_length=10000  # Aumentar para mejor inferencia
+                )
+            except Exception as e:
+                logger.warning(f"Error con ISO-8859-1, intentando con Windows-1252: {e}")
+                # Fallback a Windows-1252
+                df = pl.read_csv(
+                    csv_path,
+                    encoding="windows-1252",
+                    schema_overrides=schema_overrides,
+                    infer_schema_length=10000
+                )
+            
+            logger.info(f"Datos cargados exitosamente: {df.shape[0]} filas, {df.shape[1]} columnas")
             logger.info(f"Columnas: {df.columns}")
             
             # Mostrar primeras filas para validación

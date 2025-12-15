@@ -1,0 +1,164 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: raw_data
+        description: "Datos crudos sin transformar de Kaggle"
+
+models:
+  # ============================================================================
+  # SILVER FOUNDATION (Dimensions)
+  # ============================================================================
+  
+  - name: dim_products
+    description: "Product Master - Fuente única de verdad para nombres de productos"
+    columns:
+      - name: stock_code
+        description: "Código único del producto"
+        tests:
+          - unique
+          - not_null
+      
+      - name: canonical_description
+        description: "Descripción normalizada (más frecuente y válida)"
+        tests:
+          - not_null
+      
+      - name: num_variations
+        description: "Número de variaciones de descripción encontradas en Bronze"
+      
+      - name: total_transactions
+        description: "Total de transacciones del producto"
+
+  - name: dim_customers
+    description: "Customer Master - Dimensión de clientes únicos"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - customer_id
+            - country
+    columns:
+      - name: customer_id
+        description: "ID único del cliente"
+        tests:
+          - not_null
+      
+      - name: country
+        description: "País del cliente"
+        tests:
+          - not_null
+
+  - name: dim_calendar
+    description: "Calendario de negocio"
+    columns:
+      - name: calendar_date
+        description: "Fecha"
+        tests:
+          - unique
+          - not_null
+
+  # ============================================================================
+  # SILVER TRANSACTIONS (Facts)
+  # ============================================================================
+  
+  - name: fact_sales
+    description: "Transacciones de ventas y devoluciones limpias"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "transaction_type IN ('SALE', 'RETURN')"
+    
+    columns:
+      - name: invoice_no
+        description: "Número de factura"
+        tests:
+          - not_null
+      
+      - name: stock_code
+        description: "Código de producto"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: stock_code
+      
+      - name: transaction_type
+        description: "Tipo de transacción: SALE o RETURN"
+        tests:
+          - accepted_values:
+              values: ['SALE', 'RETURN']
+      
+      - name: quantity
+        description: "Cantidad (positiva para ventas, negativa para devoluciones)"
+        tests:
+          - not_null
+      
+      - name: unit_price
+        description: "Precio unitario"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+      
+      - name: total_sale
+        description: "Total de la línea (quantity * unit_price)"
+        tests:
+          - not_null
+
+  - name: fact_inventory_losses
+    description: "Ajustes de inventario con costos imputados"
+    columns:
+      - name: invoice_no
+        description: "Número de ajuste"
+        tests:
+          - not_null
+      
+      - name: stock_code
+        description: "Código de producto"
+        tests:
+          - not_null
+      
+      - name: quantity
+        description: "Cantidad perdida (siempre negativa)"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "< 0"
+      
+      - name: recorded_price
+        description: "Precio registrado (siempre 0)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "= 0"
+      
+      - name: imputed_price
+        description: "Precio imputado (promedio del producto)"
+      
+      - name: estimated_loss
+        description: "Pérdida estimada (quantity * imputed_price)"
+      
+      - name: loss_category
+        description: "Categoría de pérdida: DAMAGED, LOST, UNSALEABLE, etc."
+        tests:
+          - accepted_values:
+              values: ['DAMAGED', 'LOST', 'UNSALEABLE', 'DISCARDED', 'BROKEN', 'OTHER']
+
+  - name: fact_accounting_adjustments
+    description: "Ajustes contables (descuentos, envíos, etc.)"
+    columns:
+      - name: invoice_no
+        description: "Número de factura"
+        tests:
+          - not_null
+      
+      - name: stock_code
+        description: "Código especial (M, D, POST, etc.)"
+        tests:
+          - not_null
+      
+      - name: adjustment_type
+        description: "Tipo de ajuste contable"
+        tests:
+          - accepted_values:
+              values: ['MANUAL_ADJUSTMENT', 'DISCOUNT', 'POSTAGE', 'DOTCOM_ADJUSTMENT', 'BANK_CHARGES', 'CARRIAGE', 'SAMPLES', 'BAD_DEBT_ADJUSTMENT', 'OTHER']
